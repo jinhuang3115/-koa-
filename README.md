@@ -92,7 +92,7 @@ router.get('/getCaptcha', function *(){
     this.body = canvas.toBuffer();
 })
 
-router.post(‘/post’, koaBody, session(app), csrf(), function *(){
+router.post(‘/post’, koaBody, function *(){
     try {
         this.assertCSRF(this.request.body); //检测csrf攻击
         this.body = this.session; //读session
@@ -102,6 +102,7 @@ router.post(‘/post’, koaBody, session(app), csrf(), function *(){
     }
    });
 
+app.use(session(app));
 app.use(csrf());
 app.use(convert(serve('static/')));
 app
